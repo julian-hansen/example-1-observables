@@ -1,0 +1,8 @@
+<h4>{{title}}</h4>
+<ng-template #other>
+    <div>No client</div>
+</ng-template>
+<div *ngIf="client; else other" class="flex flex-column">
+<div class="flex flex-justify-between"><label>Name: </label><span> {{client.name}}</span></div>
+<div class="flex flex-justify-between"><label>Email: </label><span> {{client.email}}</span></div>
+</div>

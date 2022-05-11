@@ -1,0 +1,28 @@
+<form>
+  <h2>Client Add</h2>
+  <p>Input values and add to see how child components respond</p>
+  <input name="name" [(ngModel)]="name">
+  <input name="email" [(ngModel)]="email">
+  <button (click)="updateClient()">Update Client</button>
+</form>
+<div style="margin: 1rem 0">
+  <button (click)="killSub()">Unsubscribe</button>
+  <button (click)="showMe = !showMe">Show Hidden Children</button>
+</div>
+<div class="box">
+  <p>This demonstrates the automatic subscribing and unsubscribing to an observable through Angular's async pipe</p>
+  <app-client-view title="Async Pipe" [client]="client$ | async"></app-client-view>
+</div>
+<div class="box">
+  <p>This demonstrates a component that contacts the service directly rather than being passed a value from the parent</p>
+  <app-client-view-standalone title="Standalone (was hidden)" *ngIf="showMe"></app-client-view-standalone>
+</div>
+<div class="box">
+  <p>This demonstrates a component linked to a Subject observable - it will only get obserbable emissions that occura fter the ShowMe button is clicked</p>
+  <app-client-view title="Subject (was hidden)" *ngIf="showMe" [client]="subClient$ | async"></app-client-view>
+</div>
+<div class="box">
+  <p>This demonstrates a client bound to a subscription. When the subscription is unsubscribed the component stops receiving values</p>
+  <app-client-view [title]="subscribedClient ? 'Subscribed' : 'Unsubscribed'" [client]="subscribedClient"></app-client-view>
+</div>
+
