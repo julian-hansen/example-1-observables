@@ -1,3 +1,4 @@
+{{name}}{{email}}
 <form>
   <h2>Client Add</h2>
   <p>Input values and add to see how child components respond</p>
@@ -5,6 +6,30 @@
   <input name="email" [(ngModel)]="email">
   <button (click)="updateClient()">Update Client</button>
 </form>
+<!-- START -->
+
+<form [formGroup]="fg">
+  <div>
+    <label>Name</label>
+    <input type="text" formControlName="firstname">
+  </div>
+  <div>
+    <label>Favourite Colour</label>
+    <select formControlName="options">
+      <option *ngFor="let o of options">{{o}}</option>
+    </select>
+  </div>
+  <div>
+    <label>Observable Message</label>
+    {{message$ | async}}
+  </div>
+  <div>
+    <label>Other Message</label>
+    {{otherMessage}}
+  </div>
+</form>
+
+<!-- End -->
 <div style="margin: 1rem 0">
   <button (click)="killSub()">Unsubscribe</button>
   <button (click)="showMe = !showMe">Show Hidden Children</button>
