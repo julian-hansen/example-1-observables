@@ -1,0 +1,25 @@
+<form [formGroup]="fg">
+  <div>
+    <label>Name</label>
+    <input type="text" formControlName="firstname">
+    <ul *ngIf="lookahead$ | async as lookahead">
+        <li *ngFor="let lahd of lookahead">
+            {{lahd}}
+        </li>
+    </ul>
+  </div>
+  <div>
+    <label>Favourite Colour</label>
+    <select formControlName="options">
+      <option *ngFor="let o of options">{{o}}</option>
+    </select>
+  </div>
+  <div>
+    <label>Observable Message</label>
+    {{message$ | async}}
+  </div>
+  <div>
+    <label>Other Message</label>
+    {{otherMessage}}
+  </div>
+</form>
