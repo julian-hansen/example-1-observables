@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable, of, Subject } from 'rxjs';
-import { debounceTime, filter, switchMap, takeUntil } from 'rxjs/operators';
+import { combineLatest, interval, Observable, of, Subject, timer } from 'rxjs';
+import { debounceTime, filter, map, switchMap, takeUntil } from 'rxjs/operators';
 
 const data = [
   {color: 'Blue', msg: 'You selected blue as your favourite colour'},
@@ -47,6 +47,7 @@ export class SwitchMapSampleComponent implements OnInit, OnDestroy {
   public otherMessage: string | null = ''
   public lookahead$ : Observable<string[]> = of([])
   public options = ["Red", "Blue", "Green", "White"];
+  public timer$ : Observable<any> = of(null)
 
   public fg = new FormGroup({
     options: new FormControl(''),
@@ -66,12 +67,28 @@ export class SwitchMapSampleComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.namectrl.patchValue('Matthew')
 
+    const interval1 = interval(3000)
+    const timer1 = timer(7000,7000)
+
+
+    // interval1.subscribe(val => console.log('Interval1 emitted value', val))
+    // timer1.subscribe(val => console.log('Timer1 emittd value', val))
+
+    this.timer$ = combineLatest([
+      interval1,
+      timer1
+    ]).pipe(
+      map(([a,b]) => {
+        return `Timer ${b} Interval ${a}`
+      })
+    )
+
     this.lookahead$ = this.namectrl.valueChanges
     .pipe(
-      takeUntil(this.destroy$),
-      filter(val => val.length > 3),
-      debounceTime(400),
-      switchMap(val => getTypeAhaed(val))
+      filter(val => val.length > 1),
+      debounceTime(300),
+      switchMap(val => getTypeAhaed(val)),
+      takeUntil(this.destroy$)
     )
 
     /*the non-switchmap way */
